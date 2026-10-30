@@ -1,0 +1,11 @@
+.git
+.env
+.env.*
+.venv
+imports
+*.zip
+*.sqlite3*
+node_modules
+__pycache__
+.pytest_cache
+repair-backups

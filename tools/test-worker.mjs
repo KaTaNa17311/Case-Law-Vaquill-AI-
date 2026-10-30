@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import worker from '../worker/index.js';
+const res=await worker.fetch(new Request('https://example.test/'),{});
+assert.equal(res.status,200);const page=await res.text();assert.ok(page.includes('<h1>AdvoHQ</h1>'));assert.ok(!page.includes('SYNTHETIC TEST DOCUMENT'));
+const script=page.match(/<script>([\s\S]*?)<\/script>/)[1];new vm.Script(script);
+const status=await worker.fetch(new Request('https://example.test/api/status'),{});assert.equal((await status.json()).connected,false);
+assert.equal((await worker.fetch(new Request('https://example.test/api/chat',{method:'POST',body:'{}'}),{})).status,503);
+assert.equal((await worker.fetch(new Request('https://example.test/api/private'),{})).status,404);
+assert.equal((await worker.fetch(new Request('https://example.test/not-found'),{})).status,404);
+console.log('Worker routing, disconnected state and client JavaScript syntax passed');

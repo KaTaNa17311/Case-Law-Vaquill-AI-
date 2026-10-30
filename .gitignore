@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.venv
+node_modules
+__pycache__
+*.pyc
+*.sqlite3*
+*.zip
+.DS_Store
+repair-backups
